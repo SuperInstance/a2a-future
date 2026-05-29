@@ -1,6 +1,14 @@
 # a2a-future
 
-Async futures and promises for agent-to-agent communication.
+**Async futures and promises for agent-to-agent communication** — Future, Promise, combinators, and a concurrent executor. Pure Python.
+
+## What This Gives You
+
+- **`Future`** — resolve/await pattern for async agent results
+- **`Promise`** — chainable `.then()` transformations
+- **Combinators** — `all`, `race`, `any`, `all_settled`
+- **`FutureExecutor`** — concurrent execution with configurable max concurrency and timeouts
+- **`Channel`** — typed communication channels between agents
 
 ## Installation
 
@@ -8,57 +16,41 @@ Async futures and promises for agent-to-agent communication.
 pip install a2a-future
 ```
 
-## Usage
-
-### Future
+## Quick Start
 
 ```python
-from a2a_future import Future
+from a2a_future import Future, Promise, all, race, FutureExecutor
 
+# Future
 f = Future()
 f.resolve(42)
-print(await f)  # 42
-```
+result = await f  # 42
 
-### Promise
-
-```python
-from a2a_future import Promise
-
+# Promise chains
 p = Promise[int]()
 p.then(lambda v: v * 2).then(lambda v: print(v))
 p.resolve(21)  # prints 42
-```
 
-### Combinators
-
-```python
-from a2a_future import all, race, any, all_settled, Future
-
+# Combinators
 results = await all([f1, f2, f3])
-first = await race([f1, f2])
-```
+first_done = await race([f1, f2])
 
-### FutureExecutor
-
-```python
-from a2a_future import FutureExecutor
-
+# Executor
 ex = FutureExecutor(max_concurrency=4)
 fut = ex.submit(lambda: do_async_work(), timeout=5.0)
-results = await ex.gather()
 await ex.shutdown()
 ```
 
-### AsyncChannel
+## Testing
 
-```python
-from a2a_future import AsyncChannel
-
-ch = AsyncChannel[maxsize=10]()
-async for item in ch:
-    process(item)
+```bash
+pip install -e .
+pytest
 ```
+
+## How It Fits
+
+Async primitives for the `a2a-protocol` ecosystem. Used by agents to coordinate asynchronous task completion across the fleet.
 
 ## License
 
