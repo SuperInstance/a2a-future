@@ -1,0 +1,7 @@
+[layer]
+name = "protocol"
+
+[provides]
+agent_communication = "Secure, typed, asynchronous messaging between agents via A2A protocol"
+deliberation_protocols = "Structured deliberation: proposal, discussion, vote, resolution"
+intelligence_filtration = "Rank and filter agent contributions by capability and relevance"
